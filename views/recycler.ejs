@@ -1,0 +1,2446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Recycler Dashboard - Kabadiwala Connect</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- NAVBAR -->
+    <!-- ========================= -->
+
+    <nav class="navbar">
+    <div class="logo">
+        ♻️ Kabadiwala Connect
+    </div>
+
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/recycler">Dashboard</a>
+        <a href="/logout" class="login-btn">Logout</a>
+    </div>
+</nav>
+
+
+
+
+    <!-- ========================= -->
+    <!-- MAIN DASHBOARD -->
+    <!-- ========================= -->
+
+    <div class="recycler-dashboard">
+
+
+        <!-- ========================= -->
+        <!-- HEADER -->
+        <!-- ========================= -->
+
+        <div class="recycler-header">
+
+            <h1>
+    Welcome, <%= userName %> 👋
+</h1>
+
+            <p>
+                Manage e-waste collection requests
+            </p>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- MAIN STATISTICS -->
+        <!-- ========================= -->
+
+        <div class="stats-container">
+
+
+            <div class="stat-card">
+
+                <span>
+                    🟡
+                </span>
+
+                <p>
+                    Pending Requests
+                </p>
+
+                <h2>
+                    <%= pendingCount %>
+                </h2>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <span>
+                    🔵
+                </span>
+
+                <p>
+                    Accepted Collections
+                </p>
+
+                <h2>
+                    <%= acceptedCount %>
+                </h2>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <span>
+                    🟢
+                </span>
+
+                <p>
+                    Completed
+                </p>
+
+                <h2>
+                    <%= completedCount %>
+                </h2>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- ANALYTICS -->
+        <!-- ========================= -->
+
+        <div class="recent-section">
+
+            <h2>
+                📊 Collection Analytics
+            </h2>
+
+
+
+            <!-- OVERALL ANALYTICS -->
+
+            <div class="stats-container">
+
+
+                <div class="stat-card">
+
+                    <span>
+                        📦
+                    </span>
+
+                    <p>
+                        Total Collections
+                    </p>
+
+                    <h2>
+                        <%= totalCollections %>
+                    </h2>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <span>
+                        ⚖️
+                    </span>
+
+                    <p>
+                        Total E-Waste
+                    </p>
+
+                    <h2>
+                        <%= Number(totalWeight).toFixed(1) %> kg
+                    </h2>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <span>
+                        💰
+                    </span>
+
+                    <p>
+                        Total Value
+                    </p>
+
+                    <h2>
+                        ₹<%= totalValue %>
+                    </h2>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ========================= -->
+            <!-- STATUS ANALYTICS -->
+            <!-- ========================= -->
+
+            <h3 style="margin:30px 0 15px;">
+
+                Collection Status
+
+            </h3>
+
+
+
+            <div class="stats-container">
+
+
+                <div class="stat-card">
+
+                    <span>
+                        🟡
+                    </span>
+
+                    <p>
+                        Pending
+                    </p>
+
+                    <h2>
+                        <%= pendingCount %>
+                    </h2>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <span>
+                        🔵
+                    </span>
+
+                    <p>
+                        Accepted
+                    </p>
+
+                    <h2>
+                        <%= acceptedCount %>
+                    </h2>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <span>
+                        🚚
+                    </span>
+
+                    <p>
+                        Picked Up
+                    </p>
+
+                    <h2>
+                        <%= pickedUpCount %>
+                    </h2>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <span>
+                        🟢
+                    </span>
+
+                    <p>
+                        Completed
+                    </p>
+
+                    <h2>
+                        <%= completedCount %>
+                    </h2>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <span>
+                        🔴
+                    </span>
+
+                    <p>
+                        Rejected
+                    </p>
+
+                    <h2>
+                        <%= rejectedCount %>
+                    </h2>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ========================= -->
+            <!-- MATERIAL ANALYTICS -->
+            <!-- ========================= -->
+
+            <h3 style="margin:30px 0 15px;">
+
+                ♻️ Material-wise Collections
+
+            </h3>
+
+
+
+            <% if (Object.keys(materialCounts).length === 0) { %>
+
+
+                <div class="collection-details">
+
+                    <p>
+                        No material data available.
+                    </p>
+
+                </div>
+
+
+            <% } else { %>
+
+
+                <div class="collection-details">
+
+
+                    <% Object.entries(materialCounts).forEach(([material, count]) => { %>
+
+
+                        <div style="
+                            display:flex;
+                            justify-content:space-between;
+                            align-items:center;
+                            padding:12px 15px;
+                            margin-bottom:8px;
+                            background:white;
+                            border:1px solid #eee;
+                            border-radius:8px;
+                        ">
+
+
+                            <span>
+
+                                ♻️
+                                <%= material %>
+
+                            </span>
+
+
+                            <strong>
+
+                                <%= count %>
+                                collections
+
+                            </strong>
+
+
+                        </div>
+
+
+                    <% }) %>
+
+
+                </div>
+
+
+            <% } %>
+
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- STATUS FILTERS -->
+        <!-- ========================= -->
+
+        <div class="status-filters">
+
+
+            <button
+                type="button"
+                class="filter-btn active"
+                onclick="filterCollections('All', this)">
+
+                All
+
+            </button>
+
+
+
+            <button
+                type="button"
+                class="filter-btn"
+                onclick="filterCollections('Pending', this)">
+
+                Pending
+
+            </button>
+
+
+
+            <button
+                type="button"
+                class="filter-btn"
+                onclick="filterCollections('Accepted', this)">
+
+                Accepted
+
+            </button>
+
+
+
+            <button
+                type="button"
+                class="filter-btn"
+                onclick="filterCollections('Picked Up', this)">
+
+                Picked Up
+
+            </button>
+
+
+
+            <button
+                type="button"
+                class="filter-btn"
+                onclick="filterCollections('Completed', this)">
+
+                Completed
+
+            </button>
+
+
+
+            <button
+                type="button"
+                class="filter-btn"
+                onclick="filterCollections('Rejected', this)">
+
+                Rejected
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- COLLECTION REQUESTS -->
+        <!-- ========================= -->
+
+        <div class="recent-section">
+
+
+            <h2>
+                Collection Requests
+            </h2>
+
+
+
+            <% if (collections.length === 0) { %>
+
+
+                <div class="empty-state">
+
+                    <h3>
+                        No collection requests
+                    </h3>
+
+                    <p>
+                        New e-waste collection requests will appear here.
+                    </p>
+
+                </div>
+
+
+            <% } else { %>
+
+
+                <div class="collection-table">
+
+
+                    <!-- TABLE HEADER -->
+
+                    <div class="table-header">
+
+
+                        <div>
+                            Photo
+                        </div>
+
+
+                        <div>
+                            Material
+                        </div>
+
+
+                        <div>
+                            Weight
+                        </div>
+
+
+                        <div>
+                            Value
+                        </div>
+
+
+                        <div>
+                            Status & Actions
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- ========================= -->
+                    <!-- COLLECTION ROWS -->
+                    <!-- ========================= -->
+
+
+                    <% collections.forEach(item => { %>
+
+
+                        <div
+                            class="table-row collection-item"
+                            data-status="<%= item.status %>"
+                        >
+
+
+                            <!-- PHOTO -->
+
+                            <div>
+
+
+                                <% if (item.photo) { %>
+
+
+                                    <img
+                                        src="/uploads/<%= item.photo %>"
+                                        alt="E-waste"
+                                        style="
+                                            width:60px;
+                                            height:60px;
+                                            object-fit:cover;
+                                            border-radius:8px;
+                                        "
+                                    >
+
+
+                                <% } else { %>
+
+
+                                    <span>
+                                        No Photo
+                                    </span>
+
+
+                                <% } %>
+
+
+                            </div>
+
+
+
+                            <!-- MATERIAL -->
+
+                            <div>
+
+                                <strong>
+
+                                    <%= item.material %>
+
+                                </strong>
+
+                            </div>
+
+
+
+                            <!-- WEIGHT -->
+
+                            <div>
+
+                                <%= item.weight %>
+                                kg
+
+                            </div>
+
+
+
+                            <!-- VALUE -->
+
+                            <div>
+
+                                ₹<%= item.value %>
+
+                            </div>
+
+
+
+                            <!-- ========================= -->
+                            <!-- STATUS + ACTIONS -->
+                            <!-- ========================= -->
+
+                            <div class="status-container">
+
+
+                                <!-- CURRENT STATUS -->
+
+
+                                <% if (item.status === "Pending") { %>
+
+
+                                    <span class="status pending">
+
+                                        🟡 Pending
+
+                                    </span>
+
+
+                                <% } else if (item.status === "Accepted") { %>
+
+
+                                    <span class="status accepted">
+
+                                        🔵 Accepted
+
+                                    </span>
+
+
+                                <% } else if (item.status === "Picked Up") { %>
+
+
+                                    <span class="status accepted">
+
+                                        🚚 Picked Up
+
+                                    </span>
+
+
+                                <% } else if (item.status === "Rejected") { %>
+
+
+                                    <span class="status rejected">
+
+                                        🔴 Rejected
+
+                                    </span>
+
+
+                                <% } else if (item.status === "Completed") { %>
+
+
+                                    <span class="status completed">
+
+                                        🟢 Completed
+
+                                    </span>
+
+
+                                <% } %>
+
+
+
+                                <!-- ========================= -->
+                                <!-- DATABASE STATUS TIMELINE -->
+                                <!-- ========================= -->
+
+
+                                <div class="status-timeline">
+
+
+                                    <%
+
+                                        const history =
+                                            item.statusHistory || [];
+
+                                        const historyStatuses =
+                                            history.map(
+                                                entry => entry.status
+                                            );
+
+                                        const hasPending =
+                                            historyStatuses.includes(
+                                                "Pending"
+                                            );
+
+                                        const hasAccepted =
+                                            historyStatuses.includes(
+                                                "Accepted"
+                                            );
+
+                                        const hasPickedUp =
+                                            historyStatuses.includes(
+                                                "Picked Up"
+                                            );
+
+                                        const hasCompleted =
+                                            historyStatuses.includes(
+                                                "Completed"
+                                            );
+
+                                        const isRejected =
+                                            historyStatuses.includes(
+                                                "Rejected"
+                                            );
+
+                                    %>
+
+
+
+                                    <!-- ========================= -->
+                                    <!-- PENDING -->
+                                    <!-- ========================= -->
+
+
+                                    <div class="
+                                        timeline-step
+                                        <%= hasPending
+                                            ? 'completed-step'
+                                            : 'future-step' %>
+                                    ">
+
+
+                                        <span>
+
+                                            <%= hasPending
+                                                ? '✓'
+                                                : '1' %>
+
+                                        </span>
+
+
+                                        <small>
+                                            Pending
+                                        </small>
+
+
+                                        <%
+
+                                            const pendingEntry =
+                                                history.find(
+                                                    h =>
+                                                        h.status ===
+                                                        "Pending"
+                                                );
+
+                                        %>
+
+
+                                        <% if (pendingEntry) { %>
+
+
+                                            <small
+                                                style="font-size:10px;"
+                                            >
+
+                                                <%= new Date(
+                                                    pendingEntry.timestamp
+                                                ).toLocaleString(
+                                                    'en-IN',
+                                                    {
+                                                        day: '2-digit',
+                                                        month: 'short',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    }
+                                                ) %>
+
+                                            </small>
+
+
+                                        <% } %>
+
+
+                                    </div>
+
+
+
+                                    <div class="timeline-line"></div>
+
+
+
+                                    <!-- ========================= -->
+                                    <!-- ACCEPTED -->
+                                    <!-- ========================= -->
+
+
+                                    <div class="
+                                        timeline-step
+                                        <%= hasAccepted
+                                            ? 'completed-step'
+                                            : 'future-step' %>
+                                    ">
+
+
+                                        <span>
+
+                                            <%= hasAccepted
+                                                ? '✓'
+                                                : '2' %>
+
+                                        </span>
+
+
+                                        <small>
+                                            Accepted
+                                        </small>
+
+
+                                        <%
+
+                                            const acceptedEntry =
+                                                history.find(
+                                                    h =>
+                                                        h.status ===
+                                                        "Accepted"
+                                                );
+
+                                        %>
+
+
+                                        <% if (acceptedEntry) { %>
+
+
+                                            <small
+                                                style="font-size:10px;"
+                                            >
+
+                                                <%= new Date(
+                                                    acceptedEntry.timestamp
+                                                ).toLocaleString(
+                                                    'en-IN',
+                                                    {
+                                                        day: '2-digit',
+                                                        month: 'short',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    }
+                                                ) %>
+
+                                            </small>
+
+
+                                        <% } %>
+
+
+                                    </div>
+
+
+
+                                    <div class="timeline-line"></div>
+
+
+
+                                    <!-- ========================= -->
+                                    <!-- PICKED UP -->
+                                    <!-- ========================= -->
+
+
+                                    <div class="
+                                        timeline-step
+                                        <%= hasPickedUp
+                                            ? 'completed-step'
+                                            : 'future-step' %>
+                                    ">
+
+
+                                        <span>
+
+                                            <%= hasPickedUp
+                                                ? '✓'
+                                                : '3' %>
+
+                                        </span>
+
+
+                                        <small>
+                                            Picked Up
+                                        </small>
+
+
+                                        <%
+
+                                            const pickedUpEntry =
+                                                history.find(
+                                                    h =>
+                                                        h.status ===
+                                                        "Picked Up"
+                                                );
+
+                                        %>
+
+
+                                        <% if (pickedUpEntry) { %>
+
+
+                                            <small
+                                                style="font-size:10px;"
+                                            >
+
+                                                <%= new Date(
+                                                    pickedUpEntry.timestamp
+                                                ).toLocaleString(
+                                                    'en-IN',
+                                                    {
+                                                        day: '2-digit',
+                                                        month: 'short',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    }
+                                                ) %>
+
+                                            </small>
+
+
+                                        <% } %>
+
+
+                                    </div>
+
+
+
+                                    <div class="timeline-line"></div>
+
+
+
+                                    <!-- ========================= -->
+                                    <!-- COMPLETED -->
+                                    <!-- ========================= -->
+
+
+                                    <div class="
+                                        timeline-step
+                                        <%= hasCompleted
+                                            ? 'completed-step'
+                                            : 'future-step' %>
+                                    ">
+
+
+                                        <span>
+
+                                            <%= hasCompleted
+                                                ? '✓'
+                                                : '4' %>
+
+                                        </span>
+
+
+                                        <small>
+                                            Completed
+                                        </small>
+
+
+                                        <%
+
+                                            const completedEntry =
+                                                history.find(
+                                                    h =>
+                                                        h.status ===
+                                                        "Completed"
+                                                );
+
+                                        %>
+
+
+                                        <% if (completedEntry) { %>
+
+
+                                            <small
+                                                style="font-size:10px;"
+                                            >
+
+                                                <%= new Date(
+                                                    completedEntry.timestamp
+                                                ).toLocaleString(
+                                                    'en-IN',
+                                                    {
+                                                        day: '2-digit',
+                                                        month: 'short',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    }
+                                                ) %>
+
+                                            </small>
+
+
+                                        <% } %>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+
+                                <!-- ========================= -->
+                                <!-- REJECTED MESSAGE -->
+                                <!-- ========================= -->
+
+
+                                <% if (isRejected) { %>
+
+
+                                    <div style="
+                                        margin-top:8px;
+                                        color:#d32f2f;
+                                        font-size:13px;
+                                    ">
+
+                                        🔴 This collection was rejected.
+
+                                    </div>
+
+
+                                <% } %>
+
+
+
+                                <!-- ========================= -->
+                                <!-- ACTION BUTTONS -->
+                                <!-- ========================= -->
+
+
+                                <div style="margin-top:10px;">
+
+<!-- COLLECTOR ASSIGNMENT -->
+
+<% if (item.status === "Pending") { %>
+
+<div style="
+    margin-bottom:10px;
+    padding:12px;
+    background:#f8faf9;
+    border:1px solid #e5e7eb;
+    border-radius:10px;
+">
+
+    <div style="
+        font-weight:600;
+        margin-bottom:8px;
+    ">
+        👤 Collector Assignment
+    </div>
+
+    <% if (item.collector && item.collector.collectorId) { %>
+
+        <div style="font-size:13px; line-height:1.6;">
+            <strong>Name:</strong>
+            <%= item.collector.name || "Not available" %>
+            <br>
+
+            <strong>Phone:</strong>
+            <%= item.collector.phone || "Not available" %>
+            <br>
+
+            <strong>Area:</strong>
+            <%= item.collector.area || "Not available" %>
+        </div>
+
+        <div style="
+            margin-top:8px;
+            padding:7px 10px;
+            background:#e8f5e9;
+            color:#2e7d32;
+            border-radius:7px;
+            font-size:13px;
+            font-weight:600;
+        ">
+            ✓ Collector Assigned
+        </div>
+
+    <% } else if (collectors && collectors.length > 0) { %>
+
+        <form
+            action="/recycler/assign/<%= item._id %>"
+            method="POST"
+        >
+
+            <div style="
+                display:flex;
+                gap:8px;
+                align-items:center;
+                flex-wrap:wrap;
+            ">
+
+                <select
+                    name="collectorId"
+                    required
+                    style="
+                        padding:9px 10px;
+                        border:1px solid #ccc;
+                        border-radius:8px;
+                        min-width:220px;
+                        background:white;
+                    "
+                >
+
+                    <option value="">
+                        -- Select Collector --
+                    </option>
+
+                    <% collectors.forEach(collector => { %>
+
+                        <option value="<%= collector._id %>">
+                            <%= collector.name %>
+                            -
+                            <%= collector.area || "Area not specified" %>
+                        </option>
+
+                    <% }) %>
+
+                </select>
+
+                <button
+                    type="submit"
+                    class="action-btn accept"
+                >
+                    👤 Assign Collector
+                </button>
+
+            </div>
+
+        </form>
+
+    <% } else { %>
+
+        <div style="
+            padding:9px 10px;
+            background:#fff8e1;
+            border:1px solid #ffe082;
+            border-radius:7px;
+            color:#856404;
+            font-size:13px;
+        ">
+            ⚠️ No collectors available.
+            Please create a collector profile first.
+        </div>
+
+    <% } %>
+
+</div>
+
+<% } %>
+                                    <!-- VIEW DETAILS -->
+
+
+                                    <button
+                                        type="button"
+                                        class="action-btn"
+                                        onclick="showDetails('<%= item._id %>')"
+                                    >
+
+                                        👁 View Details
+
+                                    </button>
+
+
+
+                                    <!-- ========================= -->
+                                    <!-- PENDING ACTIONS -->
+                                    <!-- ========================= -->
+
+
+                                    <% if (item.status === "Pending") { %>
+
+
+                                        <form
+                                            action="/recycler/accept/<%= item._id %>"
+                                            method="POST"
+                                            style="display:inline;"
+                                        >
+
+
+                                            <button
+                                                type="submit"
+                                                class="action-btn accept"
+                                            >
+
+                                                Accept
+
+                                            </button>
+
+
+                                        </form>
+
+
+
+                                        <form
+                                            action="/recycler/reject/<%= item._id %>"
+                                            method="POST"
+                                            style="display:inline;"
+                                        >
+
+
+                                            <button
+                                                type="submit"
+                                                class="action-btn reject"
+                                            >
+
+                                                Reject
+
+                                            </button>
+
+
+                                        </form>
+
+
+                                    <% } else if (item.status === "Accepted") { %>
+
+
+                                        <!-- ========================= -->
+                                        <!-- ACCEPTED -->
+                                        <!-- ========================= -->
+
+
+                                        <form
+                                            action="/recycler/pickup/<%= item._id %>"
+                                            method="POST"
+                                            style="display:inline;"
+                                        >
+
+
+                                            <button
+                                                type="submit"
+                                                class="action-btn"
+                                            >
+
+                                                🚚 Mark Picked Up
+
+                                            </button>
+
+
+                                        </form>
+
+
+                                    <% } else if (item.status === "Picked Up") { %>
+
+
+                                        <!-- ========================= -->
+                                        <!-- PICKED UP -->
+                                        <!-- ========================= -->
+
+
+                                        <form
+                                            action="/recycler/complete/<%= item._id %>"
+                                            method="POST"
+                                            style="display:inline;"
+                                        >
+
+
+                                            <button
+                                                type="submit"
+                                                class="action-btn complete"
+                                            >
+
+                                                ♻️ Mark Completed
+
+                                            </button>
+
+
+                                        </form>
+
+
+                                    <% } else if (item.status === "Rejected") { %>
+
+
+                                        <span>
+
+                                            ✕ Rejected
+
+                                        </span>
+
+
+                                    <% } else if (item.status === "Completed") { %>
+
+
+                                        <span>
+
+                                            ✓ Completed
+
+                                        </span>
+
+
+                                    <% } %>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- ========================= -->
+                        <!-- DETAILS PANEL -->
+                        <!-- ========================= -->
+
+
+                        <div
+                            id="details-<%= item._id %>"
+                            class="collection-details"
+                            style="display:none;"
+                        >
+
+
+                            <h3>
+
+                                📋 Collection Details
+
+                            </h3>
+
+
+
+                            <div class="details-grid">
+
+
+                                <!-- MATERIAL -->
+
+
+                                <div>
+
+                                    <strong>
+                                        ♻️ Material
+                                    </strong>
+
+                                    <p>
+                                        <%= item.material %>
+                                    </p>
+
+                                </div>
+
+
+
+                                <!-- WEIGHT -->
+
+
+                                <div>
+
+                                    <strong>
+                                        ⚖️ Weight
+                                    </strong>
+
+                                    <p>
+                                        <%= item.weight %>
+                                        kg
+                                    </p>
+
+                                </div>
+
+
+
+                                <!-- VALUE -->
+
+
+                                <div>
+
+                                    <strong>
+                                        💰 Estimated Value
+                                    </strong>
+
+                                    <p>
+                                        ₹<%= item.value %>
+                                    </p>
+
+                                </div>
+
+
+
+                                <!-- LOCATION -->
+
+
+                                <div>
+
+                                    <strong>
+                                        📍 Pickup Location
+                                    </strong>
+
+                                    <p>
+                                        <%= item.pickupLocation ||
+                                            "Not provided" %>
+                                    </p>
+
+                                </div>
+
+
+
+                                <!-- CONTACT -->
+
+
+                                <div>
+
+                                    <strong>
+                                        📞 Contact Number
+                                    </strong>
+
+                                    <p>
+                                        <%= item.contactNumber ||
+                                            "Not provided" %>
+                                    </p>
+
+                                </div>
+
+
+
+                                <!-- PICKUP DATE -->
+
+
+                                <div>
+
+                                    <strong>
+                                        📅 Pickup Date
+                                    </strong>
+
+                                    <p>
+
+
+                                        <% if (item.pickupDate) { %>
+
+
+                                            <%= new Date(
+                                                item.pickupDate
+                                            ).toLocaleDateString(
+                                                'en-IN'
+                                            ) %>
+
+
+                                        <% } else { %>
+
+
+                                            Not provided
+
+
+                                        <% } %>
+
+
+                                    </p>
+
+                                </div>
+
+
+
+                                <!-- CURRENT STATUS -->
+
+
+                                <div>
+
+                                    <strong>
+                                        🔄 Current Status
+                                    </strong>
+
+                                    <p>
+                                        <%= item.status %>
+                                    </p>
+
+                                </div>
+
+
+
+                                <!-- CREATED AT -->
+
+
+                                <div>
+
+                                    <strong>
+                                        🕒 Created At
+                                    </strong>
+
+                                    <p>
+
+
+                                        <% if (item.createdAt) { %>
+
+
+                                            <%= new Date(
+                                                item.createdAt
+                                            ).toLocaleDateString(
+                                                'en-IN'
+                                            ) %>
+
+
+                                        <% } else { %>
+
+
+                                            Not available
+
+
+                                        <% } %>
+
+
+                                    </p>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- ========================= -->
+                            <!-- COLLECTOR INFORMATION -->
+                            <!-- ========================= -->
+
+                            <div style="margin-top:25px;">
+
+                                <h3>
+                                    👤 Collector Assignment
+                                </h3>
+
+                                <% if (item.collector && item.collector.collectorId) { %>
+
+                                    <div style="
+                                        margin-top:15px;
+                                        padding:15px;
+                                        background:#fff;
+                                        border-radius:10px;
+                                        border:1px solid #eee;
+                                    ">
+
+                                        <p>
+                                            <strong>Name:</strong>
+                                            <%= item.collector.name %>
+                                        </p>
+
+                                        <p>
+                                            <strong>Phone:</strong>
+                                            <%= item.collector.phone %>
+                                        </p>
+
+                                        <p>
+                                            <strong>Area:</strong>
+                                            <%= item.collector.area %>
+                                        </p>
+
+                                        <p style="margin-bottom:0;">
+                                            <strong>Assignment:</strong>
+                                            <span style="color:green;">
+                                                ✓ Collector Assigned
+                                            </span>
+                                        </p>
+
+                                    </div>
+
+                                <% } else if (item.status === "Pending") { %>
+
+                                    <% if (collectors && collectors.length > 0) { %>
+
+                                        <form
+                                            action="/recycler/assign/<%= item._id %>"
+                                            method="POST"
+                                            style="
+                                                margin-top:15px;
+                                                padding:15px;
+                                                background:#fff;
+                                                border-radius:10px;
+                                                border:1px solid #eee;
+                                            "
+                                        >
+
+                                            <label
+                                                for="collector-<%= item._id %>"
+                                                style="display:block;margin-bottom:8px;font-weight:600;"
+                                            >
+                                                Select Collector
+                                            </label>
+
+                                            <select
+                                                id="collector-<%= item._id %>"
+                                                name="collectorId"
+                                                required
+                                                style="
+                                                    width:100%;
+                                                    padding:10px;
+                                                    border:1px solid #ccc;
+                                                    border-radius:8px;
+                                                    margin-bottom:10px;
+                                                "
+                                            >
+
+                                                <option value="">
+                                                    -- Select Collector --
+                                                </option>
+
+                                                <% collectors.forEach(collector => { %>
+
+                                                    <option value="<%= collector._id %>">
+                                                        <%= collector.name %>
+                                                        - <%= collector.area %>
+                                                    </option>
+
+                                                <% }) %>
+
+                                            </select>
+
+                                            <button
+                                                type="submit"
+                                                class="action-btn accept"
+                                            >
+                                                👤 Assign Collector
+                                            </button>
+
+                                        </form>
+
+                                    <% } else { %>
+
+                                        <div style="
+                                            margin-top:15px;
+                                            padding:15px;
+                                            background:#fff8e1;
+                                            border:1px solid #ffe082;
+                                            border-radius:10px;
+                                        ">
+                                            ⚠️ No collectors available.
+                                            Please create a collector profile first.
+                                        </div>
+
+                                    <% } %>
+
+                                <% } else { %>
+
+                                    <div style="
+                                        margin-top:15px;
+                                        padding:15px;
+                                        background:#fff;
+                                        border-radius:10px;
+                                        border:1px solid #eee;
+                                    ">
+                                        Collector information not available.
+                                    </div>
+
+                                <% } %>
+
+                            </div>
+
+                           
+                            <!-- ========================================= -->
+<!-- E-WASTE TRACEABILITY / JOURNEY -->
+<!-- ========================================= -->
+
+<div style="
+    margin-top:25px;
+    padding:18px;
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    border-radius:12px;
+">
+
+    <h3 style="
+        margin:0 0 6px 0;
+    ">
+        ♻️ E-Waste Journey
+    </h3>
+
+    <p style="
+        margin:0 0 15px 0;
+        color:#64748b;
+        font-size:13px;
+    ">
+        Track the collection from request to recycling handover.
+    </p>
+
+
+    <!-- TRACEABILITY ID -->
+
+    <div style="
+        margin-bottom:15px;
+        padding:10px 12px;
+        background:white;
+        border:1px solid #e5e7eb;
+        border-radius:8px;
+        font-size:13px;
+    ">
+
+        <strong>Traceability ID:</strong>
+
+        <span style="
+            font-family:monospace;
+            color:#334155;
+        ">
+            KC-<%= String(item._id).slice(-8).toUpperCase() %>
+        </span>
+
+    </div>
+
+
+    <!-- JOURNEY -->
+
+    <div style="
+        display:flex;
+        flex-direction:column;
+        gap:0;
+    ">
+
+
+        <!-- REQUEST CREATED -->
+
+        <%
+            const traceHistory =
+                item.statusHistory || [];
+
+            const traceStatuses =
+                traceHistory.map(
+                    entry => entry.status
+                );
+
+            const tracePending =
+                traceHistory.find(
+                    entry => entry.status === "Pending"
+                );
+
+            const traceAccepted =
+                traceHistory.find(
+                    entry => entry.status === "Accepted"
+                );
+
+            const tracePickedUp =
+                traceHistory.find(
+                    entry => entry.status === "Picked Up"
+                );
+
+            const traceCompleted =
+                traceHistory.find(
+                    entry => entry.status === "Completed"
+                );
+
+            const traceRejected =
+                traceHistory.find(
+                    entry => entry.status === "Rejected"
+                );
+        %>
+
+
+        <div style="
+            display:flex;
+            gap:12px;
+            align-items:flex-start;
+        ">
+
+            <div style="
+                width:28px;
+                height:28px;
+                border-radius:50%;
+                background:#dcfce7;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                flex-shrink:0;
+                font-size:14px;
+            ">
+                ✓
+            </div>
+
+            <div style="flex:1;">
+
+                <strong>
+                    Request Created
+                </strong>
+
+                <% if (tracePending && tracePending.timestamp) { %>
+
+                    <div style="
+                        font-size:12px;
+                        color:#64748b;
+                        margin-top:3px;
+                    ">
+                        <%= new Date(
+                            tracePending.timestamp
+                        ).toLocaleString(
+                            "en-IN",
+                            {
+                                day:"2-digit",
+                                month:"short",
+                                year:"numeric",
+                                hour:"2-digit",
+                                minute:"2-digit"
+                            }
+                        ) %>
+                    </div>
+
+                <% } %>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONNECTOR -->
+
+        <div style="
+            width:2px;
+            height:18px;
+            background:#cbd5e1;
+            margin-left:13px;
+        "></div>
+
+
+        <!-- COLLECTOR ASSIGNED -->
+
+        <div style="
+            display:flex;
+            gap:12px;
+            align-items:flex-start;
+        ">
+
+<div class="<%= item.collector && item.collector.collectorId
+    ? 'trace-dot trace-done'
+    : 'trace-dot trace-pending' %>"
+    style="
+        width:28px;
+        height:28px;
+        border-radius:50%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        flex-shrink:0;
+    "
+>
+
+                <%= item.collector && item.collector.collectorId
+                    ? "✓"
+                    : "2" %>
+
+            </div>
+
+            <div style="flex:1;">
+
+                <strong>
+                    Collector Assigned
+                </strong>
+
+                <% if (
+                    item.collector &&
+                    item.collector.collectorId
+                ) { %>
+
+                    <div style="
+                        font-size:12px;
+                        color:#64748b;
+                        margin-top:3px;
+                    ">
+                        <%= item.collector.name || "Collector" %>
+                        ·
+                        <%= item.collector.area || "Area not available" %>
+                    </div>
+
+                <% } else { %>
+
+                    <div style="
+                        font-size:12px;
+                        color:#94a3b8;
+                        margin-top:3px;
+                    ">
+                        Waiting for collector assignment
+                    </div>
+
+                <% } %>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONNECTOR -->
+
+        <div style="
+            width:2px;
+            height:18px;
+            background:#cbd5e1;
+            margin-left:13px;
+        "></div>
+
+
+        <!-- ACCEPTED -->
+
+        <div style="
+            display:flex;
+            gap:12px;
+            align-items:flex-start;
+        ">
+
+            <div class="<%= traceAccepted
+    ? 'trace-dot trace-done'
+    : 'trace-dot trace-pending' %>"
+    style="
+        width:28px;
+        height:28px;
+        border-radius:50%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        flex-shrink:0;
+    "
+>
+                <%= traceAccepted ? "✓" : "3" %>
+
+            </div>
+
+            <div style="flex:1;">
+
+                <strong>
+                    Collection Accepted
+                </strong>
+
+                <% if (traceAccepted && traceAccepted.timestamp) { %>
+
+                    <div style="
+                        font-size:12px;
+                        color:#64748b;
+                        margin-top:3px;
+                    ">
+                        <%= new Date(
+                            traceAccepted.timestamp
+                        ).toLocaleString(
+                            "en-IN",
+                            {
+                                day:"2-digit",
+                                month:"short",
+                                year:"numeric",
+                                hour:"2-digit",
+                                minute:"2-digit"
+                            }
+                        ) %>
+                    </div>
+
+                <% } else { %>
+
+                    <div style="
+                        font-size:12px;
+                        color:#94a3b8;
+                        margin-top:3px;
+                    ">
+                        Waiting for acceptance
+                    </div>
+
+                <% } %>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONNECTOR -->
+
+        <div style="
+            width:2px;
+            height:18px;
+            background:#cbd5e1;
+            margin-left:13px;
+        "></div>
+
+
+        <!-- PICKED UP -->
+
+        <div style="
+            display:flex;
+            gap:12px;
+            align-items:flex-start;
+        ">
+
+            <div class="<%= tracePickedUp
+    ? 'trace-dot trace-done'
+    : 'trace-dot trace-pending' %>"
+    style="
+        width:28px;
+        height:28px;
+        border-radius:50%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        flex-shrink:0;
+    "
+>
+
+                <%= tracePickedUp ? "✓" : "4" %>
+
+            </div>
+
+            <div style="flex:1;">
+
+                <strong>
+                    E-Waste Picked Up
+                </strong>
+
+                <% if (tracePickedUp && tracePickedUp.timestamp) { %>
+
+                    <div style="
+                        font-size:12px;
+                        color:#64748b;
+                        margin-top:3px;
+                    ">
+                        <%= new Date(
+                            tracePickedUp.timestamp
+                        ).toLocaleString(
+                            "en-IN",
+                            {
+                                day:"2-digit",
+                                month:"short",
+                                year:"numeric",
+                                hour:"2-digit",
+                                minute:"2-digit"
+                            }
+                        ) %>
+                    </div>
+
+                <% } else { %>
+
+                    <div style="
+                        font-size:12px;
+                        color:#94a3b8;
+                        margin-top:3px;
+                    ">
+                        Awaiting pickup
+                    </div>
+
+                <% } %>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONNECTOR -->
+
+        <div style="
+            width:2px;
+            height:18px;
+            background:#cbd5e1;
+            margin-left:13px;
+        "></div>
+
+
+        <!-- COMPLETED -->
+
+        <div style="
+            display:flex;
+            gap:12px;
+            align-items:flex-start;
+        ">
+
+           <div class="<%= traceCompleted
+    ? 'trace-dot trace-done'
+    : 'trace-dot trace-pending' %>"
+    style="
+        width:28px;
+        height:28px;
+        border-radius:50%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        flex-shrink:0;
+    "
+>
+
+                <%= traceCompleted ? "✓" : "5" %>
+
+            </div>
+
+            <div style="flex:1;">
+
+                <strong>
+                    Collection Completed
+                </strong>
+
+                <% if (traceCompleted && traceCompleted.timestamp) { %>
+
+                    <div style="
+                        font-size:12px;
+                        color:#64748b;
+                        margin-top:3px;
+                    ">
+                        <%= new Date(
+                            traceCompleted.timestamp
+                        ).toLocaleString(
+                            "en-IN",
+                            {
+                                day:"2-digit",
+                                month:"short",
+                                year:"numeric",
+                                hour:"2-digit",
+                                minute:"2-digit"
+                            }
+                        ) %>
+                    </div>
+
+                <% } else { %>
+
+                    <div style="
+                        font-size:12px;
+                        color:#94a3b8;
+                        margin-top:3px;
+                    ">
+                        Not completed yet
+                    </div>
+
+                <% } %>
+
+            </div>
+
+        </div>
+
+
+        <!-- REJECTED -->
+
+        <% if (traceRejected) { %>
+
+            <div style="
+                margin-top:15px;
+                padding:10px;
+                background:#fff1f2;
+                border:1px solid #fecdd3;
+                border-radius:8px;
+                color:#be123c;
+                font-size:13px;
+            ">
+
+                🔴
+                <strong>Collection Rejected</strong>
+
+                <% if (traceRejected.timestamp) { %>
+
+                    <br>
+
+                    <span style="font-size:12px;">
+                        <%= new Date(
+                            traceRejected.timestamp
+                        ).toLocaleString(
+                            "en-IN",
+                            {
+                                day:"2-digit",
+                                month:"short",
+                                year:"numeric",
+                                hour:"2-digit",
+                                minute:"2-digit"
+                            }
+                        ) %>
+                    </span>
+
+                <% } %>
+
+            </div>
+
+        <% } %>
+
+
+    </div>
+
+</div>
+
+                            <!-- ========================= -->
+                            <!-- STATUS HISTORY -->
+                            <!-- ========================= -->
+
+
+                            <% if (
+                                item.statusHistory &&
+                                item.statusHistory.length > 0
+                            ) { %>
+
+
+                                <div style="margin-top:25px;">
+
+
+                                    <h3>
+                                        🕒 Status History
+                                    </h3>
+
+
+
+                                    <div style="
+                                        margin-top:15px;
+                                        padding:15px;
+                                        background:#fff;
+                                        border-radius:10px;
+                                        border:1px solid #eee;
+                                    ">
+
+
+                                        <% item.statusHistory.forEach(
+                                            historyItem => {
+                                        %>
+
+
+                                            <div style="
+                                                display:flex;
+                                                justify-content:space-between;
+                                                align-items:center;
+                                                padding:10px 0;
+                                                border-bottom:1px solid #eee;
+                                            ">
+
+
+                                                <strong>
+
+                                                    <%= historyItem.status %>
+
+                                                </strong>
+
+
+                                                <span style="
+                                                    font-size:13px;
+                                                    color:#777;
+                                                ">
+
+
+                                                    <%= new Date(
+                                                        historyItem.timestamp
+                                                    ).toLocaleString(
+                                                        'en-IN',
+                                                        {
+                                                            day: '2-digit',
+                                                            month: 'short',
+                                                            year: 'numeric',
+                                                            hour: '2-digit',
+                                                            minute: '2-digit'
+                                                        }
+                                                    ) %>
+
+
+                                                </span>
+
+
+                                            </div>
+
+
+                                        <% }) %>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                            <% } %>
+
+
+
+                            <!-- ========================= -->
+                            <!-- LARGE PHOTO -->
+                            <!-- ========================= -->
+
+
+                            <% if (item.photo) { %>
+
+
+                                <div style="margin-top:20px;">
+
+
+                                    <strong>
+                                        📷 E-waste Photo
+                                    </strong>
+
+
+                                    <br>
+                                    <br>
+
+
+                                    <img
+                                        src="/uploads/<%= item.photo %>"
+                                        alt="E-waste Photo"
+                                        style="
+                                            width:200px;
+                                            max-height:200px;
+                                            object-fit:cover;
+                                            border-radius:10px;
+                                        "
+                                    >
+
+
+                                </div>
+
+
+                            <% } %>
+
+
+
+                            <br>
+
+
+
+                            <!-- CLOSE BUTTON -->
+
+
+                            <button
+    type="button"
+    class="action-btn"
+    onclick="closeDetails('<%= item._id %>')"
+>
+    ✕ Close Details
+</button>
+
+                        </div>
+
+
+                    <% }) %>
+
+
+                </div>
+
+
+            <% } %>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+
+    <script>
+
+
+        // =========================
+        // FILTER COLLECTIONS
+        // =========================
+
+
+        function filterCollections(status, button) {
+
+
+            const items =
+                document.querySelectorAll(
+                    ".collection-item"
+                );
+
+
+            const buttons =
+                document.querySelectorAll(
+                    ".filter-btn"
+                );
+
+
+            buttons.forEach(btn => {
+
+                btn.classList.remove("active");
+
+            });
+
+
+            button.classList.add("active");
+
+
+            items.forEach(item => {
+
+
+                const itemStatus =
+                    item.dataset.status;
+
+
+                if (
+                    status === "All" ||
+                    itemStatus === status
+                ) {
+
+                    item.style.display =
+                        "grid";
+
+                } else {
+
+                    item.style.display =
+                        "none";
+
+                }
+
+
+            });
+
+
+        }
+
+
+
+        // =========================
+        // SHOW DETAILS
+        // =========================
+
+
+        // =========================
+// SHOW DETAILS
+// =========================
+
+function showDetails(id) {
+
+    const details = document.getElementById("details-" + id);
+
+    if (!details) {
+        console.log("Details panel not found:", id);
+        return;
+    }
+
+    details.style.setProperty("display", "block", "important");
+
+}
+
+
+// =========================
+// CLOSE DETAILS
+// =========================
+
+function closeDetails(id) {
+
+    const details = document.getElementById("details-" + id);
+
+    if (!details) {
+        console.log("Details panel not found:", id);
+        return;
+    }
+
+    details.style.setProperty("display", "none", "important");
+
+}
+
+
+    </script>
+
+
+</body>
+
+</html>

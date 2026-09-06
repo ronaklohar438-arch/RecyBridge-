@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Collector Dashboard - Kabadiwala Connect</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- NAVBAR -->
+    <!-- ========================= -->
+
+    <nav class="navbar">
+    <div class="logo">
+        ♻️ Kabadiwala Connect
+    </div>
+
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/collector">Dashboard</a>
+        <a href="/profile" class="login-btn">Profile</a>
+        <a href="/logout" class="login-btn">Logout</a>
+    </div>
+</nav>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- ========================= -->
+    <!-- DASHBOARD -->
+    <!-- ========================= -->
+
+    <section class="dashboard">
+
+
+        <!-- ========================= -->
+        <!-- DASHBOARD HEADER -->
+        <!-- ========================= -->
+
+        <div class="dashboard-header">
+
+            <div>
+
+                <p class="tagline">
+                    COLLECTOR PORTAL
+                </p>
+
+                <h1>
+    Welcome, <%= userName %> 👋
+</h1>
+
+                <p>
+                    Manage your e-waste collections and earnings.
+                </p>
+
+            </div>
+
+
+            <button
+                class="primary-btn"
+                type="button"
+                onclick="document.querySelector('.collection-section').scrollIntoView({ behavior: 'smooth' })"
+            >
+                + Add E-Waste
+            </button>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- STATS -->
+        <!-- ========================= -->
+
+        <div class="stats-container">
+
+
+            <div class="stat-card">
+
+                <span>
+                    ♻️
+                </span>
+
+                <p>
+                    Total Collected
+                </p>
+
+                <h2>
+                    <%= Number(totalWeight).toFixed(1) %> kg
+                </h2>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <span>
+                    💰
+                </span>
+
+                <p>
+                    Total Earnings
+                </p>
+
+                <h2>
+                    ₹<%= totalEarnings.toLocaleString("en-IN") %>
+                </h2>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <span>
+                    📦
+                </span>
+
+                <p>
+                    Total Collections
+                </p>
+
+                <h2>
+                    <%= totalCollections %>
+                </h2>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- ADD E-WASTE -->
+        <!-- ========================= -->
+
+        <div class="collection-section">
+
+
+            <!-- FORM -->
+
+            <div class="collection-form">
+
+
+                <h2>
+                    Add E-Waste
+                </h2>
+
+
+                <p class="form-description">
+                    Enter the details of the e-waste you collected.
+                </p>
+
+
+
+                <form
+                    action="/collector/add"
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
+
+
+                    <!-- MATERIAL -->
+
+                    <label for="material">
+                        E-Waste Type
+                    </label>
+
+
+                    <select
+                        id="material"
+                        name="material"
+                        required
+                    >
+
+                        <option value="">
+                            Select material
+                        </option>
+
+                        <option value="mobile">
+                            Mobile Phone
+                        </option>
+
+                        <option value="laptop">
+                            Laptop
+                        </option>
+
+                        <option value="computer">
+                            Computer
+                        </option>
+
+                        <option value="monitor">
+                            Monitor
+                        </option>
+
+                        <option value="battery">
+                            Battery
+                        </option>
+
+                    </select>
+
+
+
+                    <!-- WEIGHT -->
+
+                    <label for="weight">
+                        Weight (kg)
+                    </label>
+
+
+                    <input
+                        type="number"
+                        id="weight"
+                        name="weight"
+                        placeholder="Enter weight"
+                        min="0.1"
+                        step="0.1"
+                        required
+                    >
+
+
+
+                    <!-- PICKUP LOCATION -->
+
+                    <label for="pickupLocation">
+                        📍 Pickup Location
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="pickupLocation"
+                        name="pickupLocation"
+                        placeholder="Enter pickup address / area"
+                        required
+                    >
+
+
+
+                    <!-- CONTACT -->
+
+                    <label for="contactNumber">
+                        📞 Contact Number
+                    </label>
+
+
+                    <input
+                        type="tel"
+                        id="contactNumber"
+                        name="contactNumber"
+                        placeholder="Enter contact number"
+                        pattern="[0-9]{10}"
+                        maxlength="10"
+                        required
+                    >
+
+
+
+                    <!-- PICKUP DATE -->
+
+                    <label for="pickupDate">
+                        🗓️ Preferred Pickup Date
+                    </label>
+
+
+                    <input
+                        type="date"
+                        id="pickupDate"
+                        name="pickupDate"
+                        required
+                    >
+
+
+
+                    <!-- PHOTO -->
+
+                    <label for="photo">
+                        E-Waste Photo
+                    </label>
+
+
+                    <input
+                        type="file"
+                        id="photo"
+                        name="photo"
+                        accept="image/*"
+                        capture="environment"
+                    >
+
+
+                    <div
+                        id="photoPreview"
+                        style="margin-top:15px;"
+                    ></div>
+
+
+                    <p class="photo-note">
+                        📷 Upload a photo or take a picture of the e-waste.
+                    </p>
+
+
+
+                    <!-- CALCULATE VALUE -->
+
+                    <button
+                        type="button"
+                        class="primary-btn calculate-btn"
+                        onclick="calculateValue()"
+                    >
+                        Get Estimated Value
+                    </button>
+
+
+
+                    <!-- SUBMIT -->
+
+                    <button
+                        type="submit"
+                        class="primary-btn"
+                    >
+                        + Add Collection
+                    </button>
+
+
+                </form>
+
+
+            </div>
+
+
+
+            <!-- ========================= -->
+            <!-- ESTIMATE CARD -->
+            <!-- ========================= -->
+
+            <div class="estimate-card">
+
+
+                <div class="estimate-icon">
+                    💰
+                </div>
+
+
+                <p>
+                    Estimated Value
+                </p>
+
+
+                <h2 id="estimatedValue">
+                    ₹0
+                </h2>
+
+
+                <span>
+                    Final price may vary after recycler inspection.
+                </span>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- RECENT COLLECTIONS -->
+        <!-- ========================= -->
+
+        <div class="recent-section">
+
+
+            <h2>
+                Recent Collections
+            </h2>
+
+
+
+            <% if (collections.length === 0) { %>
+
+
+                <div class="empty-state">
+
+                    <h3>
+                        No collections yet
+                    </h3>
+
+                    <p>
+                        Add your first e-waste collection above.
+                    </p>
+
+                </div>
+
+
+            <% } else { %>
+
+
+                <div class="collection-table">
+
+
+                    <!-- ========================= -->
+                    <!-- TABLE HEADER -->
+                    <!-- ========================= -->
+
+                    <div class="table-header">
+
+
+                        <span>
+                            Photo
+                        </span>
+
+
+                        <span>
+                            Material
+                        </span>
+
+
+                        <span>
+                            Weight
+                        </span>
+
+
+                        <span>
+                            Value
+                        </span>
+
+
+                        <span>
+                            Status
+                        </span>
+
+
+                    </div>
+
+
+
+                    <!-- ========================= -->
+                    <!-- COLLECTIONS -->
+                    <!-- ========================= -->
+
+
+                    <% collections.forEach(item => { %>
+
+
+                        <div class="table-row">
+
+
+                            <!-- ========================= -->
+                            <!-- PHOTO -->
+                            <!-- ========================= -->
+
+
+                            <div>
+
+
+                                <% if (item.photo) { %>
+
+
+                                    <img
+                                        src="/uploads/<%= item.photo %>"
+                                        alt="E-waste"
+                                        style="
+                                            width:60px;
+                                            height:60px;
+                                            object-fit:cover;
+                                            border-radius:8px;
+                                        "
+                                    >
+
+
+                                <% } else { %>
+
+
+                                    <span>
+                                        —
+                                    </span>
+
+
+                                <% } %>
+
+
+                            </div>
+
+
+
+                            <!-- ========================= -->
+                            <!-- MATERIAL -->
+                            <!-- ========================= -->
+
+
+                            <span>
+
+                                <%= item.material %>
+
+                            </span>
+
+
+
+                            <!-- ========================= -->
+                            <!-- WEIGHT -->
+                            <!-- ========================= -->
+
+
+                            <span>
+
+                                <%= item.weight %> kg
+
+                            </span>
+
+
+
+                            <!-- ========================= -->
+                            <!-- VALUE -->
+                            <!-- ========================= -->
+
+
+                            <span>
+
+                                ₹<%= item.value.toLocaleString("en-IN") %>
+
+                            </span>
+
+
+
+                            <!-- ========================= -->
+                            <!-- STATUS -->
+                            <!-- ========================= -->
+
+
+                            <div class="status-container">
+
+
+                                <!-- CURRENT STATUS -->
+
+
+                                <% if (item.status === "Pending") { %>
+
+
+                                    <span class="status pending">
+
+                                        🟡 Pending
+
+                                    </span>
+
+
+                                <% } else if (item.status === "Accepted") { %>
+
+
+                                    <span class="status accepted">
+
+                                        🔵 Accepted
+
+                                    </span>
+
+
+                                <% } else if (item.status === "Picked Up") { %>
+
+
+                                    <span class="status accepted">
+
+                                        🚚 Picked Up
+
+                                    </span>
+
+
+                                <% } else if (item.status === "Rejected") { %>
+
+
+                                    <span class="status rejected">
+
+                                        🔴 Rejected
+
+                                    </span>
+
+
+                                <% } else if (item.status === "Completed") { %>
+
+
+                                    <span class="status completed">
+
+                                        🟢 Completed
+
+                                    </span>
+
+
+                                <% } else { %>
+
+
+                                    <span class="status">
+
+                                        <%= item.status %>
+
+                                    </span>
+
+
+                                <% } %>
+
+
+
+                                <!-- ========================= -->
+                                <!-- DATABASE HISTORY -->
+                                <!-- ========================= -->
+
+
+                                <%
+
+                                    const history =
+                                        item.statusHistory || [];
+
+
+                                    const historyStatuses =
+                                        history.map(
+                                            entry => entry.status
+                                        );
+
+
+                                    const hasPending =
+                                        historyStatuses.includes(
+                                            "Pending"
+                                        );
+
+
+                                    const hasAccepted =
+                                        historyStatuses.includes(
+                                            "Accepted"
+                                        );
+
+
+                                    const hasPickedUp =
+                                        historyStatuses.includes(
+                                            "Picked Up"
+                                        );
+
+
+                                    const hasCompleted =
+                                        historyStatuses.includes(
+                                            "Completed"
+                                        );
+
+
+                                    const hasRejected =
+                                        historyStatuses.includes(
+                                            "Rejected"
+                                        );
+
+
+                                    const pendingEntry =
+                                        history.find(
+                                            h =>
+                                                h.status ===
+                                                "Pending"
+                                        );
+
+
+                                    const acceptedEntry =
+                                        history.find(
+                                            h =>
+                                                h.status ===
+                                                "Accepted"
+                                        );
+
+
+                                    const pickedUpEntry =
+                                        history.find(
+                                            h =>
+                                                h.status ===
+                                                "Picked Up"
+                                        );
+
+
+                                    const completedEntry =
+                                        history.find(
+                                            h =>
+                                                h.status ===
+                                                "Completed"
+                                        );
+
+
+                                    const rejectedEntry =
+                                        history.find(
+                                            h =>
+                                                h.status ===
+                                                "Rejected"
+                                        );
+
+                                %>
+
+
+
+                                <!-- ========================= -->
+                                <!-- TIMELINE -->
+                                <!-- ========================= -->
+
+
+                                <div class="status-timeline">
+
+
+                                    <!-- ========================= -->
+                                    <!-- SUBMITTED / PENDING -->
+                                    <!-- ========================= -->
+
+
+                                    <div class="
+                                        timeline-step
+                                        <%= hasPending
+                                            ? 'completed-step'
+                                            : 'future-step'
+                                        %>
+                                    ">
+
+
+                                        <span>
+
+                                            <%= hasPending
+                                                ? "✓"
+                                                : "1"
+                                            %>
+
+                                        </span>
+
+
+                                        <small>
+                                            Submitted
+                                        </small>
+
+
+                                        <% if (pendingEntry) { %>
+
+
+                                            <small
+                                                style="font-size:10px;"
+                                            >
+
+                                                <%= new Date(
+                                                    pendingEntry.timestamp
+                                                ).toLocaleString(
+                                                    "en-IN",
+                                                    {
+                                                        day: "2-digit",
+                                                        month: "short",
+                                                        hour: "2-digit",
+                                                        minute: "2-digit"
+                                                    }
+                                                ) %>
+
+                                            </small>
+
+
+                                        <% } %>
+
+
+                                    </div>
+
+
+
+                                    <div class="timeline-line"></div>
+
+
+
+                                    <!-- ========================= -->
+                                    <!-- ACCEPTED -->
+                                    <!-- ========================= -->
+
+
+                                    <div class="
+                                        timeline-step
+                                        <%= hasAccepted
+                                            ? 'completed-step'
+                                            : (item.status === 'Pending'
+                                                ? 'current-step'
+                                                : 'future-step')
+                                        %>
+                                    ">
+
+
+                                        <span>
+
+                                            <%= hasAccepted
+                                                ? "✓"
+                                                : "2"
+                                            %>
+
+                                        </span>
+
+
+                                        <small>
+                                            Accepted
+                                        </small>
+
+
+                                        <% if (acceptedEntry) { %>
+
+
+                                            <small
+                                                style="font-size:10px;"
+                                            >
+
+                                                <%= new Date(
+                                                    acceptedEntry.timestamp
+                                                ).toLocaleString(
+                                                    "en-IN",
+                                                    {
+                                                        day: "2-digit",
+                                                        month: "short",
+                                                        hour: "2-digit",
+                                                        minute: "2-digit"
+                                                    }
+                                                ) %>
+
+                                            </small>
+
+
+                                        <% } %>
+
+
+                                    </div>
+
+
+
+                                    <div class="timeline-line"></div>
+
+
+
+                                    <!-- ========================= -->
+                                    <!-- PICKED UP -->
+                                    <!-- ========================= -->
+
+
+                                    <div class="
+                                        timeline-step
+                                        <%= hasPickedUp
+                                            ? 'completed-step'
+                                            : (item.status === 'Accepted'
+                                                ? 'current-step'
+                                                : 'future-step')
+                                        %>
+                                    ">
+
+
+                                        <span>
+
+                                            <%= hasPickedUp
+                                                ? "✓"
+                                                : "3"
+                                            %>
+
+                                        </span>
+
+
+                                        <small>
+                                            Picked Up
+                                        </small>
+
+
+                                        <% if (pickedUpEntry) { %>
+
+
+                                            <small
+                                                style="font-size:10px;"
+                                            >
+
+                                                <%= new Date(
+                                                    pickedUpEntry.timestamp
+                                                ).toLocaleString(
+                                                    "en-IN",
+                                                    {
+                                                        day: "2-digit",
+                                                        month: "short",
+                                                        hour: "2-digit",
+                                                        minute: "2-digit"
+                                                    }
+                                                ) %>
+
+                                            </small>
+
+
+                                        <% } %>
+
+
+                                    </div>
+
+
+
+                                    <div class="timeline-line"></div>
+
+
+
+                                    <!-- ========================= -->
+                                    <!-- COMPLETED -->
+                                    <!-- ========================= -->
+
+
+                                    <div class="
+                                        timeline-step
+                                        <%= hasCompleted
+                                            ? 'completed-step'
+                                            : (item.status === 'Picked Up'
+                                                ? 'current-step'
+                                                : 'future-step')
+                                        %>
+                                    ">
+
+
+                                        <span>
+
+                                            <%= hasCompleted
+                                                ? "✓"
+                                                : "4"
+                                            %>
+
+                                        </span>
+
+
+                                        <small>
+                                            Completed
+                                        </small>
+
+
+                                        <% if (completedEntry) { %>
+
+
+                                            <small
+                                                style="font-size:10px;"
+                                            >
+
+                                                <%= new Date(
+                                                    completedEntry.timestamp
+                                                ).toLocaleString(
+                                                    "en-IN",
+                                                    {
+                                                        day: "2-digit",
+                                                        month: "short",
+                                                        hour: "2-digit",
+                                                        minute: "2-digit"
+                                                    }
+                                                ) %>
+
+                                            </small>
+
+
+                                        <% } %>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+
+                                <!-- ========================= -->
+                                <!-- REJECTED -->
+                                <!-- ========================= -->
+
+
+                                <% if (hasRejected) { %>
+
+
+                                    <div style="
+                                        margin-top:10px;
+                                        padding:8px 10px;
+                                        border-radius:8px;
+                                        background:#fff0f0;
+                                        color:#d32f2f;
+                                        font-size:13px;
+                                    ">
+
+
+                                        🔴 Collection Rejected
+
+
+                                        <% if (rejectedEntry) { %>
+
+
+                                            <br>
+
+
+                                            <small>
+
+                                                <%= new Date(
+                                                    rejectedEntry.timestamp
+                                                ).toLocaleString(
+                                                    "en-IN",
+                                                    {
+                                                        day: "2-digit",
+                                                        month: "short",
+                                                        year: "numeric",
+                                                        hour: "2-digit",
+                                                        minute: "2-digit"
+                                                    }
+                                                ) %>
+
+                                            </small>
+
+
+                                        <% } %>
+
+
+                                    </div>
+
+
+                                <% } %>
+
+
+
+                                <!-- ========================= -->
+                                <!-- FULL STATUS HISTORY -->
+                                <!-- ========================= -->
+
+
+                                <% if (history.length > 0) { %>
+
+
+                                    <details
+                                        style="
+                                            margin-top:12px;
+                                        "
+                                    >
+
+
+                                        <summary
+                                            style="
+                                                cursor:pointer;
+                                                font-weight:600;
+                                                color:#555;
+                                            "
+                                        >
+
+                                            🕒 View Status History
+
+                                        </summary>
+
+
+
+                                        <div
+                                            style="
+                                                margin-top:10px;
+                                                padding:10px;
+                                                background:#fff;
+                                                border:1px solid #eee;
+                                                border-radius:8px;
+                                            "
+                                        >
+
+
+                                            <% history.forEach(
+                                                historyItem => {
+                                            %>
+
+
+                                                <div
+                                                    style="
+                                                        display:flex;
+                                                        justify-content:space-between;
+                                                        gap:10px;
+                                                        padding:8px 0;
+                                                        border-bottom:1px solid #eee;
+                                                        font-size:13px;
+                                                    "
+                                                >
+
+
+                                                    <strong>
+
+                                                        <%= historyItem.status %>
+
+                                                    </strong>
+
+
+                                                    <span>
+
+                                                        <%= new Date(
+                                                            historyItem.timestamp
+                                                        ).toLocaleString(
+                                                            "en-IN",
+                                                            {
+                                                                day: "2-digit",
+                                                                month: "short",
+                                                                year: "numeric",
+                                                                hour: "2-digit",
+                                                                minute: "2-digit"
+                                                            }
+                                                        ) %>
+
+                                                    </span>
+
+
+                                                </div>
+
+
+                                            <% }) %>
+
+
+                                        </div>
+
+
+                                    </details>
+
+
+                                <% } %>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    <% }) %>
+
+
+                </div>
+
+
+            <% } %>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- ========================= -->
+    <!-- FOOTER -->
+    <!-- ========================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Kabadiwala Connect |
+            E-Waste for a Better Tomorrow ♻️
+        </p>
+
+    </footer>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+
+        // =========================
+        // CALCULATE VALUE
+        // =========================
+
+
+        function calculateValue() {
+
+
+            const material =
+                document.getElementById(
+                    "material"
+                ).value;
+
+
+            const weight =
+                Number(
+                    document.getElementById(
+                        "weight"
+                    ).value
+                );
+
+
+            const rates = {
+
+
+                mobile: 500,
+
+
+                laptop: 600,
+
+
+                computer: 400,
+
+
+                monitor: 350,
+
+
+                battery: 250
+
+
+            };
+
+
+            if (
+                !material ||
+                !weight ||
+                weight <= 0
+            ) {
+
+
+                alert(
+                    "Please select e-waste type and enter weight."
+                );
+
+
+                return;
+
+            }
+
+
+            const value =
+                weight * rates[material];
+
+
+            document.getElementById(
+                "estimatedValue"
+            ).innerText =
+                "₹" +
+                value.toLocaleString(
+                    "en-IN"
+                );
+
+
+        }
+
+
+
+        // =========================
+        // PHOTO PREVIEW
+        // =========================
+
+
+        document
+            .getElementById("photo")
+            .addEventListener(
+                "change",
+                function () {
+
+
+                    const file =
+                        this.files[0];
+
+
+                    const preview =
+                        document.getElementById(
+                            "photoPreview"
+                        );
+
+
+                    if (!file) {
+
+
+                        preview.innerHTML =
+                            "";
+
+
+                        return;
+
+                    }
+
+
+                    if (
+                        !file.type.startsWith(
+                            "image/"
+                        )
+                    ) {
+
+
+                        alert(
+                            "Please select an image file."
+                        );
+
+
+                        this.value =
+                            "";
+
+
+                        preview.innerHTML =
+                            "";
+
+
+                        return;
+
+                    }
+
+
+                    const imageURL =
+                        URL.createObjectURL(
+                            file
+                        );
+
+
+                    preview.innerHTML = `
+
+                        <p>
+                            <strong>
+                                Selected Photo:
+                            </strong>
+                        </p>
+
+                        <img
+                            src="${imageURL}"
+                            alt="E-waste preview"
+                            style="
+                                width:220px;
+                                max-height:180px;
+                                object-fit:cover;
+                                border-radius:10px;
+                                border:1px solid #ddd;
+                            "
+                        >
+
+                    `;
+
+
+                }
+            );
+
+
+    </script>
+
+
+</body>
+
+</html>

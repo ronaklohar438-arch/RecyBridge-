@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Collector Profile</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- Navbar -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            ♻️ Kabadiwala Connect
+        </div>
+
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/collector">
+                Dashboard
+            </a>
+
+            <button class="login-btn">
+                Profile
+            </button>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- Profile -->
+
+    <section class="dashboard">
+
+
+        <div class="dashboard-header">
+
+            <div>
+
+                <p class="tagline">
+                    COLLECTOR PROFILE
+                </p>
+
+                <h1>
+                    My Profile 👤
+                </h1>
+
+                <p>
+                    Manage your collector information.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Profile Card -->
+
+        <div class="collection-section">
+
+
+            <div class="collection-form">
+
+                <h2>
+                    Personal Information
+                </h2>
+
+                <p class="form-description">
+                    Update your collector details.
+                </p>
+
+
+                <form
+                    action="/profile/update"
+                    method="POST"
+                >
+
+
+                    <!-- Name -->
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your name"
+                        value="<%= collector ? collector.name : '' %>"
+                        required
+                    >
+
+
+
+                    <!-- Phone -->
+
+                    <label for="phone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="Enter 10-digit phone number"
+                        pattern="[0-9]{10}"
+                        maxlength="10"
+                        value="<%= collector ? collector.phone : '' %>"
+                        required
+                    >
+
+
+
+                    <!-- Area -->
+
+                    <label for="area">
+                        📍 Area / Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="area"
+                        name="area"
+                        placeholder="Enter your area"
+                        value="<%= collector ? collector.area : '' %>"
+                        required
+                    >
+
+
+
+                    <!-- Submit -->
+
+                    <button
+                        type="submit"
+                        class="primary-btn"
+                    >
+                        💾 Save Profile
+                    </button>
+
+
+                </form>
+
+            </div>
+
+
+
+            <!-- Stats -->
+
+            <div class="estimate-card">
+
+                <div class="estimate-icon">
+                    ♻️
+                </div>
+
+                <p>
+                    Your Collection Impact
+                </p>
+
+
+                <h2>
+                    <%= totalWeight %> kg
+                </h2>
+
+                <span>
+                    Total e-waste collected
+                </span>
+
+
+                <hr style="margin: 20px 0;">
+
+
+                <p>
+                    📦 Collections
+                </p>
+
+                <h2>
+                    <%= totalCollections %>
+                </h2>
+
+
+                <hr style="margin: 20px 0;">
+
+
+                <p>
+                    💰 Earnings
+                </p>
+
+                <h2>
+                    ₹<%= totalEarnings.toLocaleString("en-IN") %>
+                </h2>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <p>
+            © 2026 Kabadiwala Connect |
+            E-Waste for a Better Tomorrow ♻️
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>
