@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 const mongoose = require("mongoose");
 
 const Collection = require("./models/Collection");
@@ -31,17 +32,35 @@ mongoose.connect(process.env.MONGODB_URI)
 // Image Upload Configuration
 // =========================
 
+// =========================
+// Image Upload Configuration
+// =========================
+
+// Make sure uploads folder exists
+const uploadsDir = path.join(__dirname, "uploads");
+
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, {
+        recursive: true
+    });
+}
+
 const storage = multer.diskStorage({
 
     destination: function (req, file, cb) {
-        cb(null, "uploads/");
+        cb(null, uploadsDir);
     },
 
     filename: function (req, file, cb) {
-        const extension = path.extname(file.originalname);
-        const filename = Date.now() + extension;
+
+        const extension =
+            path.extname(file.originalname);
+
+        const filename =
+            Date.now() + extension;
 
         cb(null, filename);
+
     }
 
 });
@@ -49,9 +68,7 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage
 });
-
-
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.set("view engine", "ejs");
 
