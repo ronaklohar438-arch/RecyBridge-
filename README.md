@@ -26,9 +26,7 @@ RecyBridge addresses this gap by connecting **Collectors** and **Recyclers** thr
 
 ---
 
-## 🎯 Problem Statement
-
-**Problem Statement ID:** 26229
+#problem
 
 The existing informal e-waste collection network already provides valuable last-mile collection services, but there is a lack of a structured digital connection between informal collectors and formal recycling organizations.
 
